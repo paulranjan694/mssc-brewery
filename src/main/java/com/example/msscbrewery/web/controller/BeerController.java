@@ -1,5 +1,6 @@
 package com.example.msscbrewery.web.controller;
 
+import com.example.msscbrewery.services.BeerService;
 import com.example.msscbrewery.web.model.BeerDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +15,14 @@ import java.util.UUID;
 @RestController
 public class BeerController {
 
+    private final BeerService beerService;
+
+    public BeerController(BeerService beerService) {
+        this.beerService = beerService;
+    }
+
     @GetMapping({"/{beerId}"})
     public ResponseEntity<BeerDto> getBeer(@PathVariable("beerId") UUID beerId){
-        return new ResponseEntity<>(BeerDto.builder().build(), HttpStatus.OK);
+        return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
     }
 }
